@@ -1,0 +1,65 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="max-w-3xl">
+  <h1 class="text-3xl font-bold mb-1">Result</h1>
+  <p class="text-sm text-gray-500 mb-6">{{ test.preset }} &middot; {{ test.finished_at|date:"d M Y, H:i" }}</p>
+
+  <div class="bg-white p-6 rounded-xl shadow mb-6">
+    <p class="text-sm text-gray-500">Total score</p>
+    <p class="text-4xl font-bold text-blue-600">{{ total }} <span class="text-lg text-gray-400">/ {{ maximum }}</span></p>
+    <p class="text-xs text-gray-400 mt-1">Right: +1, wrong: &minus;{{ test.negative_mark }}, skipped: 0</p>
+  </div>
+
+  <!-- Score for each section -->
+  <div class="bg-white rounded-xl shadow overflow-x-auto mb-8">
+    <table class="w-full text-sm">
+      <thead class="bg-gray-100 text-left">
+        <tr>
+          <th class="p-3">Section</th><th class="p-3">Right</th><th class="p-3">Wrong</th>
+          <th class="p-3">Skipped</th><th class="p-3">Marks</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for s in sections %}
+        <tr class="border-t">
+          <td class="p-3">{{ s.name }}</td>
+          <td class="p-3 text-green-700">{{ s.correct }}</td>
+          <td class="p-3 text-red-600">{{ s.wrong }}</td>
+          <td class="p-3 text-gray-500">{{ s.skipped }}</td>
+          <td class="p-3 font-semibold">{{ s.marks|floatformat:"-2" }} / {{ s.count }}</td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+
+  <!-- Review every question -->
+  <h2 class="text-xl font-semibold mb-3">Review</h2>
+  {% for s in sections %}
+    <h3 class="font-semibold text-blue-700 mt-6 mb-2">{{ s.name }}</h3>
+    {% for r in s.rows %}
+    <details class="bg-white rounded-xl shadow mb-2 p-4">
+      <summary class="cursor-pointer">
+        <span class="font-medium">{{ forloop.counter }}.</span>
+        {{ r.question.question_text|truncatechars:90 }}
+        {% if r.status == "correct" %}<span class="ml-2 text-xs px-2 py-0.5 rounded bg-green-100 text-green-700">Right</span>
+        {% elif r.status == "wrong" %}<span class="ml-2 text-xs px-2 py-0.5 rounded bg-red-100 text-red-700">Wrong</span>
+        {% else %}<span class="ml-2 text-xs px-2 py-0.5 rounded bg-gray-100 text-gray-600">Skipped</span>{% endif %}
+      </summary>
+      <p class="mt-3 whitespace-pre-line">{{ r.question.question_text }}</p>
+      {% if r.chosen %}
+        <p class="text-sm mt-2 {% if r.status == 'wrong' %}text-red-600{% else %}text-green-700{% endif %}">
+          Your answer: {{ r.chosen }}. {{ r.chosen_text }}
+        </p>
+      {% else %}
+        <p class="text-sm mt-2 text-gray-500">You skipped this question.</p>
+      {% endif %}
+      <p class="text-sm text-green-700">Correct answer: {{ r.right }}. {{ r.right_text }}</p>
+      <p class="mt-2 p-3 bg-blue-50 rounded text-sm"><strong>Explanation:</strong> {{ r.question.explanation }}</p>
+    </details>
+    {% endfor %}
+  {% endfor %}
+
+  <a href="{% url 'mock_home' %}" class="inline-block mt-6 bg-blue-600 text-white px-4 py-2 rounded">Back to mock tests</a>
+</div>
+{% endblock %}

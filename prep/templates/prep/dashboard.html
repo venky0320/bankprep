@@ -1,0 +1,47 @@
+{% extends "base.html" %}
+{% block content %}
+<h1 class="text-3xl font-bold mb-6">Dashboard</h1>
+
+<!-- Four number cards -->
+<div class="grid sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
+  <div class="bg-white p-5 rounded-xl shadow">
+    <p class="text-sm text-gray-500">Attempted</p>
+    <p class="text-3xl font-bold text-blue-600">{{ attempted }}</p>
+  </div>
+  <div class="bg-white p-5 rounded-xl shadow">
+    <p class="text-sm text-gray-500">Accuracy</p>
+    <p class="text-3xl font-bold text-blue-600">{% if accuracy is not None %}{{ accuracy }}%{% else %}—{% endif %}</p>
+  </div>
+  <div class="bg-white p-5 rounded-xl shadow">
+    <p class="text-sm text-gray-500">Syllabus started</p>
+    <p class="text-3xl font-bold text-blue-600">{{ syllabus_pct }}%</p>
+    <p class="text-xs text-gray-400">{{ started }} of {{ total_topics }} topics</p>
+  </div>
+  <div class="bg-white p-5 rounded-xl shadow">
+    <p class="text-sm text-gray-500">Days to exam</p>
+    <p class="text-3xl font-bold text-blue-600">{% if days_left is not None %}{{ days_left }}{% else %}—{% endif %}</p>
+  </div>
+</div>
+
+<!-- Exam date -->
+<div class="bg-white p-5 rounded-xl shadow mb-6">
+  <form method="post" class="flex flex-wrap items-end gap-3">
+    {% csrf_token %}
+    <div>
+      <label class="block text-sm font-medium mb-2">Exam date</label>
+      <input type="date" name="exam_date" value="{{ exam_date|date:'Y-m-d' }}" class="border p-2 rounded">
+    </div>
+    <button class="bg-slate-800 text-white px-4 py-2 rounded text-sm">Save</button>
+  </form>
+</div>
+
+<!-- Weak areas -->
+<div class="bg-white p-5 rounded-xl shadow">
+  <h2 class="font-semibold mb-2">Weak areas</h2>
+  {% for w in weak %}
+    <p class="text-sm">{{ w.name }}: {{ w.accuracy }}% <span class="text-gray-400">({{ w.total }} attempts)</span></p>
+  {% empty %}
+    <p class="text-sm text-gray-500">Attempt at least 3 questions in a topic to see this.</p>
+  {% endfor %}
+</div>
+{% endblock %}

@@ -1,0 +1,31 @@
+{% extends "registration/auth_base.html" %}
+{% block title %}Create account | BankPrep{% endblock %}
+
+{% block card %}
+  <h1 class="text-3xl font-extrabold tracking-tight">Create your account</h1>
+  <p class="mb-7 mt-1.5 text-slate-500">Start practising in less than a minute.</p>
+
+  {% if form.non_field_errors %}
+    <div class="mb-5 rounded-xl border border-red-200 bg-red-50 px-4 py-3 text-sm font-medium text-red-700" role="alert">
+      {% for error in form.non_field_errors %}<p>{{ error }}</p>{% endfor %}
+    </div>
+  {% endif %}
+
+  <form method="post" novalidate>
+    {% csrf_token %}
+
+    {% include "registration/_field.html" with field=form.username label="Username" type="text" placeholder="Choose a username" autocomplete="username" autofocus=True show_help=True %}
+    {% include "registration/_field.html" with field=form.password1 label="Password" type="password" placeholder="Create a password" autocomplete="new-password" show_help=True %}
+    {% include "registration/_field.html" with field=form.password2 label="Confirm password" type="password" placeholder="Enter the same password again" autocomplete="new-password" %}
+
+    <button type="submit"
+            class="w-full rounded-xl bg-blue-600 px-4 py-3.5 text-base font-semibold text-white shadow-sm transition hover:bg-blue-700 focus:outline-none focus:ring-4 focus:ring-blue-200">
+      Create account
+    </button>
+  </form>
+
+  <p class="mt-7 text-center text-sm text-slate-600">
+    Already have an account?
+    <a href="{% url 'login' %}" class="font-semibold text-blue-600 hover:underline">Log in</a>
+  </p>
+{% endblock %}

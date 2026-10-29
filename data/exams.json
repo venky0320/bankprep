@@ -1,0 +1,120 @@
+[
+  {
+    "id": "ibps-po",
+    "name": "IBPS PO",
+    "interview": "Interview: 100 marks. Final merit uses Mains + Interview. Prelims marks are not counted.",
+    "stages": [
+      {
+        "name": "Prelims (qualifying only)",
+        "sections": [
+          { "name": "English Language", "questions": "30", "marks": "30", "minutes": "20" },
+          { "name": "Quantitative Aptitude", "questions": "35", "marks": "30", "minutes": "20" },
+          { "name": "Reasoning Ability", "questions": "35", "marks": "40", "minutes": "20" }
+        ],
+        "total": "100 questions, 100 marks, 60 minutes"
+      },
+      {
+        "name": "Mains (objective)",
+        "sections": [
+          { "name": "Reasoning", "questions": "40", "marks": "60", "minutes": "45" },
+          { "name": "General/Economy/Banking Awareness", "questions": "50", "marks": "60", "minutes": "35" },
+          { "name": "English Language", "questions": "40", "marks": "20", "minutes": "35" },
+          { "name": "Data Analysis & Interpretation", "questions": "40", "marks": "60", "minutes": "45" }
+        ],
+        "total": "170 questions, 200 marks, 160 minutes"
+      },
+      {
+        "name": "Mains (descriptive)",
+        "sections": [
+          { "name": "Essay & Comprehension (typed)", "questions": "2", "marks": "25", "minutes": "30" }
+        ],
+        "total": "2 questions, 25 marks, 30 minutes"
+      }
+    ]
+  },
+  {
+    "id": "sbi-po",
+    "name": "SBI PO",
+    "interview": "Group Exercise + Interview: 50 marks. Mains (250 marks) and this stage decide the final merit.",
+    "stages": [
+      {
+        "name": "Prelims (qualifying only) - please confirm in the SBI notification",
+        "sections": [
+          { "name": "English Language", "questions": "30", "marks": "-", "minutes": "20" },
+          { "name": "Quantitative Aptitude", "questions": "35", "marks": "-", "minutes": "20" },
+          { "name": "Reasoning Ability", "questions": "35", "marks": "-", "minutes": "20" }
+        ],
+        "total": "100 questions, 100 marks, 60 minutes"
+      },
+      {
+        "name": "Mains (objective)",
+        "sections": [
+          { "name": "Reasoning & Computer Aptitude", "questions": "40", "marks": "60", "minutes": "50" },
+          { "name": "Data Analysis & Interpretation", "questions": "30", "marks": "60", "minutes": "45" },
+          { "name": "General/Economy/Banking Awareness", "questions": "60", "marks": "60", "minutes": "45" },
+          { "name": "English Language", "questions": "40", "marks": "20", "minutes": "40" }
+        ],
+        "total": "170 questions, 200 marks, 180 minutes"
+      },
+      {
+        "name": "Mains (descriptive)",
+        "sections": [
+          { "name": "Essay & Letter (typed)", "questions": "2", "marks": "50", "minutes": "30" }
+        ],
+        "total": "2 questions, 50 marks, 30 minutes"
+      }
+    ]
+  },
+  {
+    "id": "ibps-clerk",
+    "name": "IBPS Clerk",
+    "interview": "No interview. Final merit is based on Mains marks only. Please confirm the Mains numbers in the official notification, because sources disagree.",
+    "stages": [
+      {
+        "name": "Prelims (qualifying only)",
+        "sections": [
+          { "name": "English Language", "questions": "30", "marks": "30", "minutes": "20" },
+          { "name": "Numerical Ability", "questions": "35", "marks": "35", "minutes": "20" },
+          { "name": "Reasoning Ability", "questions": "35", "marks": "35", "minutes": "20" }
+        ],
+        "total": "100 questions, 100 marks, 60 minutes"
+      },
+      {
+        "name": "Mains",
+        "sections": [
+          { "name": "General/Financial Awareness", "questions": "40", "marks": "50", "minutes": "20" },
+          { "name": "General English", "questions": "40", "marks": "40", "minutes": "35" },
+          { "name": "Reasoning Ability", "questions": "40", "marks": "60", "minutes": "35" },
+          { "name": "Quantitative Aptitude", "questions": "35", "marks": "50", "minutes": "30" }
+        ],
+        "total": "155 questions, 200 marks, 120 minutes"
+      }
+    ]
+  },
+  {
+    "id": "rbi-b",
+    "name": "RBI Grade B",
+    "interview": "Interview: 75 marks. Final merit = Phase II (300) + Interview (75). Phase I marks are not counted.",
+    "stages": [
+      {
+        "name": "Phase I (qualifying only)",
+        "sections": [
+          { "name": "General Awareness", "questions": "80", "marks": "80", "minutes": "-" },
+          { "name": "English Language", "questions": "30", "marks": "30", "minutes": "-" },
+          { "name": "Quantitative Aptitude", "questions": "30", "marks": "30", "minutes": "-" },
+          { "name": "Reasoning", "questions": "60", "marks": "60", "minutes": "-" }
+        ],
+        "total": "200 questions, 200 marks, 120 minutes"
+      },
+      {
+        "name": "Phase II",
+        "sections": [
+          { "name": "Paper 1: Economic & Social Issues (50 objective + 50 descriptive)", "questions": "-", "marks": "100", "minutes": "-" },
+          { "name": "Paper 2: English Writing Skills (descriptive)", "questions": "-", "marks": "100", "minutes": "90" },
+          { "name": "Paper 3: Finance & Management (50 objective + 50 descriptive)", "questions": "-", "marks": "100", "minutes": "-" }
+        ],
+        "total": "3 papers, 300 marks"
+      }
+    ]
+  }
+]

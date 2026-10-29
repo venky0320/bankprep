@@ -1,0 +1,58 @@
+{
+  "Quantitative Aptitude": {
+    "Number Series": ["Missing term", "Wrong term", "Arithmetic and geometric patterns", "Difference and second-difference series", "Squares and cubes series", "Prime number series", "Alternating and double patterns", "Multiply-and-add patterns", "Ratio and mixed-operation series"],
+    "Data Interpretation (Bar, Line, Pie, Table, Caselet)": ["Table DI", "Bar graph DI", "Line graph DI", "Pie chart DI", "Mixed graph DI", "Caselet DI", "Missing DI", "Percentage change and ratio-based DI", "Approximation-based DI", "Data sufficiency-style DI"],
+    "Simplification & Approximation": ["BODMAS", "Fractions and decimals", "Percentage-based simplification", "Surds, roots and powers", "Approximation", "Missing number in an expression", "Comparison of values", "Calculation shortcuts"],
+    "Quadratic Equations": ["Factorisation method", "Finding roots", "Comparison of roots (x vs y)", "Quadratic vs linear equations", "Equation-based word problems"],
+    "Percentage": ["Percentage and fraction conversion", "Increase and decrease", "Successive percentage changes", "Population-based problems", "Income and expenditure", "Marks and result problems", "Reverse percentage", "Percentage comparisons"],
+    "Ratio & Proportion": ["Simple ratios", "Compound ratios", "Direct and inverse proportion", "Proportional distribution", "Ratio changes over time", "Variation", "Partnership-linked ratios"],
+    "Profit & Loss": ["Cost price and selling price", "Profit and loss percentage", "Marked price and discount", "Successive discounts", "False weights", "Two-article and mixed-sale problems", "Buy-get-free offers", "Equivalent transactions"],
+    "Simple & Compound Interest": ["Simple interest", "Compound interest", "Different compounding periods", "Finding rate, time or principal", "SI and CI difference", "Amount comparison", "Instalment-style problems", "Interest on split investments"],
+    "Time & Work": ["Efficiency and work rate", "Combined work", "Alternate-day work", "Work and wages", "Work equivalence", "Pipes & Cisterns", "Leaks and outlets", "Changing workforce problems"],
+    "Speed, Distance & Time (Boats, Trains)": ["Speed unit conversion", "Average speed", "Relative speed", "Trains crossing poles and platforms", "Trains crossing each other", "Boats and streams", "Races and head starts", "Circular tracks", "Meeting-point problems"],
+    "Mixtures & Alligation": ["Mixing two quantities", "Alligation rule", "Replacement of part of a mixture", "Repeated replacement", "Mixing prices", "Concentration problems"],
+    "Ages": ["Present, past and future ages", "Age ratios", "Sum and difference of ages", "Family-age relationships", "Age equations"],
+    "Partnership": ["Capital and time ratio", "Profit sharing", "Changing investments", "Working and sleeping partners", "Partnership with ratios"],
+    "Mensuration": ["Area and perimeter of rectangles and squares", "Triangles", "Circles, semicircles and sectors", "Cylinder", "Cone", "Sphere and hemisphere", "Cube and cuboid", "Combined figures", "Unit conversion"],
+    "Probability, Permutation & Combination": ["Counting principle", "Permutations", "Combinations", "Arrangements of words", "Selections with conditions", "Basic probability", "Cards and dice problems", "Complementary events"],
+    "Word Problems (Averages, Numbers)": ["Simple average", "Weighted average", "Average with replacement", "HCF and LCM", "Divisibility rules", "Remainders", "Unit digit", "Number properties", "Missing number problems", "Digit and number-based problems"]
+  },
+  "Reasoning Ability": {
+    "Puzzles (Floor, Box, Scheduling)": ["Floor-based puzzles", "Box-based puzzles", "Month and date puzzles", "Day-based puzzles", "Scheduling puzzles", "Designation and comparison puzzles", "Uncertain-variable puzzles", "Multi-variable puzzles", "Person-and-attribute puzzles"],
+    "Seating Arrangement (Linear, Circular)": ["Single-row linear", "Double-row linear", "Circular facing inward", "Circular facing outward", "Mixed-facing circular", "Square and rectangular", "Parallel rows", "Uncertain positions"],
+    "Syllogism": ["All, some and no statements", "Possibility cases", "Either-or cases", "Only-a-few statements", "Reverse syllogism", "Venn diagram method", "Three-statement conclusions"],
+    "Inequality": ["Direct inequality", "Coded inequality", "Compound inequality", "Conclusion evaluation", "Either-or conclusions", "Direct and indirect relations"],
+    "Coding-Decoding": ["Letter coding", "Number coding", "Symbol coding", "Substitution coding", "Word-based coding", "Chinese coding", "Conditional coding", "New-pattern coding"],
+    "Blood Relations": ["Family tree questions", "Coded relations", "Generation-based questions", "Pointing-based relations", "Puzzle-based relations", "Gender identification"],
+    "Direction Sense": ["Turns and final direction", "Distance and displacement", "Shortest distance", "Relative position", "Shadow-based questions", "Directions with blood relations"],
+    "Order & Ranking": ["Rank from left and right", "Rank from top and bottom", "Total number of persons", "Rank changes", "Comparison-based ranking", "Position-between questions"],
+    "Input-Output": ["Word arrangement", "Number arrangement", "Mixed word-and-number arrangement", "Machine operations", "Step-based questions", "Rule identification", "Position of an element"],
+    "Data Sufficiency": ["Two-statement sufficiency", "Three-statement sufficiency", "Quantitative sufficiency", "Logical-reasoning sufficiency", "Sufficiency rules and options"],
+    "Alphanumeric Series": ["Letter series", "Number series in reasoning", "Symbol series", "Position counting in a series", "Sequence rules", "Mixed-series questions", "Rearrangement-based questions"],
+    "Logical Reasoning (Assumption, Course of Action)": ["Statement and assumption", "Statement and conclusion", "Inference", "Course of action", "Cause and effect", "Strengthening arguments", "Weakening arguments", "Critical reasoning", "Argument evaluation", "Paradox and resolution"],
+    "Computer Aptitude": ["Number systems and binary basics", "Binary conversions", "Logic gates", "Basic computer concepts", "Computer abbreviations", "Shortcut keys and software basics", "Networking and internet basics", "Simple computer aptitude problems"]
+  },
+  "English Language": {
+    "Reading Comprehension": ["Main idea and title", "Factual questions", "Inference", "Tone and attitude", "Author's purpose", "Vocabulary in context", "Passage-based conclusions", "True and false statements"],
+    "Cloze Test": ["Grammar-based cloze", "Vocabulary-based cloze", "Contextual cloze", "Connector-based cloze", "Phrase and idiom cloze"],
+    "Error Detection": ["Subject-verb agreement", "Tenses", "Articles", "Prepositions", "Pronouns", "Adjectives and adverbs", "Modifiers", "Conjunctions", "Parallelism", "Sentence structure"],
+    "Para Jumbles": ["Sentence ordering", "Opening sentence", "Closing sentence", "Connectors and pronoun references", "Paragraph flow", "Para completion"],
+    "Fill in the Blanks": ["Single blank", "Double blank", "Contextual vocabulary", "Connectors", "Phrasal verbs", "Grammar-based fillers"],
+    "Sentence Improvement": ["Phrase replacement", "Sentence correction", "Word swap", "Grammar correction", "Sentence structure", "Conciseness and clarity"],
+    "Vocabulary (Synonyms, Antonyms, Word Usage)": ["Synonyms", "Antonyms", "Idioms and phrases", "One-word substitutions", "Spelling", "Phrasal verbs", "Word usage", "Commonly confused words"],
+    "Descriptive Writing (Essay, Letter, Precis)": ["Essay writing", "Formal letter", "Formal email", "Precis writing", "Report writing", "Situation analysis", "Comprehension-based writing"]
+  },
+  "Banking & Economy Awareness": {
+    "RBI Functions & Monetary Policy": ["RBI roles and functions", "Repo and reverse repo", "Standing Deposit Facility and MSF", "CRR and SLR", "Open market operations", "Inflation targeting", "Policy transmission", "Monetary policy committee", "Currency management"],
+    "Banking Terminology": ["Deposits and lending terms", "CASA", "Priority sector lending", "KYC and AML", "Banking ratios", "Interest rate terms", "Financial abbreviations", "NPA terminology"],
+    "Indian Banking System & Types of Banks": ["Public sector banks", "Private sector banks", "Regional Rural Banks", "Cooperative banks", "Small finance banks", "Payments banks", "Scheduled and non-scheduled banks", "Banking regulation basics"],
+    "Types of Accounts & Negotiable Instruments": ["Savings accounts", "Current accounts", "Fixed and recurring deposits", "Cheques and crossing", "Demand drafts and bills", "Promissory notes", "Endorsement", "Account opening and KYC"],
+    "Basel Norms & NPA": ["Basel framework", "Capital adequacy", "Risk-weighted assets", "NPA classification", "Provisioning", "Stressed asset resolution", "Recovery mechanisms"],
+    "Digital Payments (UPI, NEFT, RTGS)": ["UPI", "IMPS", "NEFT", "RTGS", "Cards and wallets", "AePS", "Payment security", "Digital fraud awareness"],
+    "Government Schemes": ["Financial inclusion schemes", "Jan Dhan", "Insurance schemes", "Pension schemes", "Credit and loan schemes", "Rural and agriculture schemes", "Eligibility and benefits", "Implementing ministries"],
+    "Economy Basics (GDP, Inflation, Budget)": ["GDP and GVA", "Inflation and price indices", "Fiscal policy", "Monetary policy basics", "Union Budget", "Taxation", "Unemployment", "Balance of payments", "Exchange rates"],
+    "Financial Institutions (SEBI, IRDAI, NABARD, IMF, World Bank)": ["SEBI", "IRDAI", "NABARD", "SIDBI and other development banks", "IMF", "World Bank", "Other international institutions", "Headquarters and functions", "Reports and indices"],
+    "Static GK (Currencies, Capitals, Important Days)": ["Countries, capitals and currencies", "Important days and themes", "National parks and sanctuaries", "Headquarters of organisations", "Books and authors", "Awards", "Key locations"],
+    "Current Affairs (Last 6 Months)": ["Banking and RBI news", "Government policy and schemes", "Economy and reports", "Appointments", "Awards and honours", "Summits and agreements", "Sports", "Science and technology", "National events", "International events"]
+  }
+}

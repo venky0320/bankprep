@@ -1,0 +1,53 @@
+{% extends "base.html" %}
+{% block content %}
+<h1 class="text-3xl font-bold mb-4">Exam Info</h1>
+
+<!-- One button for each exam -->
+<div class="flex flex-wrap gap-2 mb-6">
+  {% for e in exams %}
+    <a href="?exam={{ e.id }}"
+       class="px-3 py-2 rounded border {% if e.id == exam.id %}bg-blue-600 text-white border-blue-600{% else %}bg-white hover:bg-gray-100{% endif %}">
+      {{ e.name }}
+    </a>
+  {% endfor %}
+</div>
+
+<h2 class="text-2xl font-semibold mb-4">{{ exam.name }}</h2>
+
+<!-- One table for each stage -->
+{% for stage in exam.stages %}
+<div class="mb-6">
+  <h3 class="font-semibold mb-2">{{ stage.name }}</h3>
+  <div class="bg-white rounded-xl shadow overflow-x-auto">
+    <table class="w-full text-sm">
+      <thead class="bg-gray-100 text-left">
+        <tr>
+          <th class="p-3">Section</th>
+          <th class="p-3">Questions</th>
+          <th class="p-3">Marks</th>
+          <th class="p-3">Minutes</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for s in stage.sections %}
+        <tr class="border-t">
+          <td class="p-3">{{ s.name }}</td>
+          <td class="p-3">{{ s.questions }}</td>
+          <td class="p-3">{{ s.marks }}</td>
+          <td class="p-3">{{ s.minutes }}</td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+  <p class="text-sm text-gray-600 mt-1">Total: {{ stage.total }}</p>
+</div>
+{% endfor %}
+
+<p class="bg-blue-50 p-3 rounded text-sm">{{ exam.interview }}</p>
+
+<p class="text-xs text-gray-500 mt-4">
+  Wrong answers lose 0.25 marks in IBPS and SBI exams. Not affiliated with IBPS, SBI or RBI.
+  Always confirm the pattern in the official notification.
+</p>
+{% endblock %}

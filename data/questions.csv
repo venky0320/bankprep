@@ -1,0 +1,13 @@
+topic,subtopic,source,difficulty,question,A,B,C,D,E,answer,explanation
+Number Series,Arithmetic and geometric patterns,Original,Easy,"4, 8, 16, 32, ?",48,56,64,72,80,C,Each number is doubled. 32 × 2 = 64.
+Number Series,Difference and second-difference series,Original,Medium,"2, 5, 10, 17, 26, ?",35,36,37,38,39,C,"The differences are 3, 5, 7, 9, so the next difference is 11. 26 + 11 = 37."
+Number Series,Difference and second-difference series,Original,Hard,"3, 4, 8, 17, 33, 58, ?",84,90,94,98,102,C,"The differences are 1, 4, 9, 16, 25 (squares), so the next is 6² = 36. 58 + 36 = 94."
+Percentage,Percentage and fraction conversion,Original,Easy,What is 15% of 240?,30,32,36,38,40,C,15% of 240 = 240 × 15 / 100 = 36.
+Percentage,Successive percentage changes,Original,Medium,A number is increased by 20% and then decreased by 20%. What is the net change?,No change,4% decrease,4% increase,2% decrease,2% increase,B,"1.2 × 0.8 = 0.96, which is 96% of the original number, a 4% decrease."
+Percentage,Income and expenditure,Original,Medium,The price of an item rises by 25%. By what percentage must consumption fall so that spending stays the same?,15%,16%,20%,25%,30%,C,"Consumption must become 1/1.25 = 0.8 of the old amount, a fall of 20%."
+Simplification & Approximation,BODMAS,Original,Easy,25 × 12 + 150 ÷ 5 = ?,320,330,340,350,360,B,25 × 12 = 300 and 150 ÷ 5 = 30. 300 + 30 = 330.
+Blood Relations,Pointing-based relations,Original,Medium,"Pointing to a photograph, Ravi says, ""She is the daughter of my father's only son."" How is the girl related to Ravi?",Sister,Daughter,Niece,Cousin,Mother,B,"My father's only son is Ravi himself, so the girl is Ravi's daughter."
+Direction Sense,Turns and final direction,Original,Easy,"A man walks 5 km north, turns right and walks 3 km, then turns right again and walks 5 km. How far and in which direction is he from the starting point?",3 km east,3 km west,5 km north,8 km east,2 km south,A,"North then east then south: the 5 km north and 5 km south cancel out, leaving 3 km to the east."
+Order & Ranking,Rank from left and right,Original,Easy,"In a row of 30 students, Amit is 12th from the left. What is his position from the right?",17th,18th,19th,20th,21st,C,Position from the right = 30 − 12 + 1 = 19.
+Fill in the Blanks,Grammar-based fillers,Original,Easy,She has been working here ___ 2019.,since,for,from,in,at,A,'Since' is used with a starting point in time (2019) in perfect tenses.
+Fill in the Blanks,Grammar-based fillers,Original,Easy,The committee ___ its decision yesterday.,announce,announces,announced,announcing,will announce,C,"'Yesterday' shows past time, so the simple past 'announced' is correct."

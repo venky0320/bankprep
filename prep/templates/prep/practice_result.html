@@ -1,0 +1,57 @@
+{% extends "base.html" %}
+{% block title %}Practice result | BankPrep{% endblock %}
+{% block content %}
+<div class="max-w-4xl">
+
+  <div class="bp-card p-5 sm:p-6 mb-4">
+    <p class="text-[11px] font-bold uppercase tracking-[.14em] text-slate-500">Session complete</p>
+    <h1 class="text-2xl font-bold mb-4">{{ title }}</h1>
+
+    <dl class="grid grid-cols-2 gap-3 sm:grid-cols-5 text-center">
+      <div class="rounded-xl bg-blue-50 py-3"><dt class="text-xs font-bold text-blue-700">Score</dt><dd class="text-2xl font-bold">{{ correct }} / {{ total }}</dd></div>
+      <div class="rounded-xl bg-slate-100 py-3"><dt class="text-xs font-bold text-slate-600">Accuracy</dt><dd class="text-2xl font-bold">{{ accuracy }}%</dd></div>
+      <div class="rounded-xl bg-green-50 py-3"><dt class="text-xs font-bold text-green-700">Correct</dt><dd class="text-2xl font-bold">{{ correct }}</dd></div>
+      <div class="rounded-xl bg-red-50 py-3"><dt class="text-xs font-bold text-red-700">Wrong</dt><dd class="text-2xl font-bold">{{ wrong }}</dd></div>
+      <div class="rounded-xl bg-slate-100 py-3"><dt class="text-xs font-bold text-slate-600">Time</dt><dd class="text-2xl font-bold tabular-nums">{{ time_text }}</dd></div>
+    </dl>
+    {% if skipped %}<p class="mt-3 text-sm text-slate-600">{{ skipped }} question{{ skipped|pluralize }} not answered.</p>{% endif %}
+
+    <div class="mt-5 flex flex-wrap gap-3">
+      {% if can_retry %}
+        <form method="post">
+          {% csrf_token %}<input type="hidden" name="action" value="retry">
+          <button class="rounded-lg bg-blue-600 px-5 py-2 text-sm font-semibold text-white hover:bg-blue-700">Retry the {{ wrong|add:skipped }} I missed</button>
+        </form>
+      {% endif %}
+      <a href="{% url 'practice_home' %}" class="rounded-lg border px-5 py-2 text-sm font-semibold hover:bg-slate-50">Practise another topic</a>
+    </div>
+  </div>
+
+  <h2 class="text-lg font-bold mb-3">Review</h2>
+  <div class="space-y-3">
+    {% for r in rows %}
+    <details class="bp-card" {% if r.status != 'correct' %}open{% endif %}>
+      <summary class="flex cursor-pointer items-start gap-3 p-4">
+        <span class="mt-0.5 flex-none rounded px-2 py-0.5 text-xs font-bold
+          {% if r.status == 'correct' %}bg-green-100 text-green-700{% elif r.status == 'wrong' %}bg-red-100 text-red-700{% else %}bg-slate-200 text-slate-700{% endif %}">
+          {% if r.status == 'correct' %}Correct{% elif r.status == 'wrong' %}Wrong{% else %}Not answered{% endif %}
+        </span>
+        <span class="flex-1"><span class="font-semibold">Q{{ r.number }}.</span> <span class="whitespace-pre-line">{{ r.question.question_text }}</span></span>
+      </summary>
+      <div class="border-t px-4 pb-4 pt-3 space-y-2">
+        {% for o in r.options %}
+          <div class="flex items-start gap-3 rounded-lg border px-3 py-2 text-sm
+            {% if o.is_correct %}border-green-500 bg-green-50{% elif o.is_chosen %}border-red-500 bg-red-50{% else %}border-slate-200{% endif %}">
+            <span class="font-bold">{{ o.letter }}.</span>
+            <span class="flex-1">{{ o.text }}</span>
+            {% if o.is_correct %}<span class="text-xs font-bold text-green-700">Correct answer</span>
+            {% elif o.is_chosen %}<span class="text-xs font-bold text-red-700">Your answer</span>{% endif %}
+          </div>
+        {% endfor %}
+        <p class="mt-2 rounded-lg bg-blue-50 p-3 text-sm whitespace-pre-line"><strong>Explanation:</strong> {{ r.question.explanation }}</p>
+      </div>
+    </details>
+    {% endfor %}
+  </div>
+</div>
+{% endblock %}

@@ -1,0 +1,194 @@
+{% extends "base.html" %}
+{% block title %}Practice | BankPrep{% endblock %}
+{% block content %}
+<style>
+  .opt { display: flex; gap: .75rem; align-items: flex-start; border: 1.5px solid #e2e8f0; border-radius: .75rem;
+         padding: .8rem .9rem; background: #fff; cursor: pointer; transition: border-color .12s, background .12s; }
+  .opt:hover { background: #f8fafc; }
+  .opt.sel { border-color: #2563eb; background: #eff6ff; }
+  .opt:focus-within { outline: 2px solid #2563eb; outline-offset: 2px; }
+  .opt.ok { border-color: #16a34a; background: #f0fdf4; cursor: default; }
+  .opt.bad { border-color: #dc2626; background: #fef2f2; cursor: default; }
+  .opt.plain { cursor: default; }
+  .opt.plain:hover { background: #fff; }
+  .letter { flex: none; width: 1.8rem; height: 1.8rem; border-radius: .5rem; display: grid; place-items: center;
+            font-weight: 700; font-size: .85rem; background: #f1f5f9; color: #334155; }
+  .opt.sel .letter { background: #2563eb; color: #fff; }
+  .opt.ok .letter { background: #16a34a; color: #fff; }
+  .opt.bad .letter { background: #dc2626; color: #fff; }
+  .tile { display: grid; place-items: center; height: 2.5rem; border-radius: .6rem; font-weight: 700; font-size: .9rem;
+          border: 1.5px solid #e2e8f0; background: #fff; color: #334155; text-decoration: none; position: relative; }
+  .tile:hover { background: #f1f5f9; }
+  .tile.correct { background: #16a34a; border-color: #16a34a; color: #fff; }
+  .tile.wrong { background: #dc2626; border-color: #dc2626; color: #fff; }
+  .tile.current { outline: 3px solid #2563eb; outline-offset: 2px; }
+  kbd { background: #f1f5f9; border: 1px solid #cbd5e1; border-bottom-width: 2px; border-radius: .3rem;
+        padding: 0 .35rem; font-size: .75rem; font-family: inherit; }
+</style>
+
+<div class="max-w-6xl">
+
+  <!-- Top bar -->
+  <div class="bp-card px-4 py-3 mb-4 flex flex-wrap items-center gap-x-5 gap-y-2">
+    <div class="min-w-0 flex-1">
+      <p class="text-[11px] font-bold uppercase tracking-[.14em] text-slate-500">Practice session</p>
+      <h1 class="text-lg font-bold truncate">{{ title }}</h1>
+    </div>
+    <p class="text-sm font-semibold tabular-nums text-slate-700">Time <span id="timer">0:00</span></p>
+    <p class="text-sm text-slate-600">{{ answered_count }} of {{ total }} answered</p>
+    <form method="post" {% if left %}onsubmit="return confirm('You have {{ left }} unanswered question{{ left|pluralize }}. Finish anyway?');"{% endif %}>
+      {% csrf_token %}
+      <input type="hidden" name="action" value="finish">
+      <button class="rounded-lg bg-slate-900 px-4 py-2 text-sm font-semibold text-white hover:bg-slate-700">Finish session</button>
+    </form>
+  </div>
+  <div class="h-1.5 bg-slate-200 rounded mb-4" role="progressbar" aria-valuenow="{{ progress_pct }}" aria-valuemin="0" aria-valuemax="100" aria-label="Questions answered">
+    <div class="h-1.5 bg-blue-600 rounded" style="width: {{ progress_pct }}%"></div>
+  </div>
+
+  <div class="grid gap-4 lg:grid-cols-[1fr_17rem]">
+
+    <!-- Question -->
+    <section class="bp-card p-5 sm:p-6" aria-label="Question {{ number }}">
+      <div class="flex flex-wrap items-center gap-2 mb-4">
+        <h2 class="text-sm font-bold text-slate-500">Question {{ number }} of {{ total }}</h2>
+        {% if question.subtopic %}<span class="text-xs px-2 py-0.5 rounded bg-slate-100 text-slate-600">{{ question.subtopic.name }}</span>{% endif %}
+      </div>
+
+      <p class="text-lg font-medium leading-relaxed whitespace-pre-line mb-5">{{ question.question_text }}</p>
+
+      {% if chosen %}
+        <!-- Already answered: show right and wrong with labels, not only colours -->
+        <div class="space-y-2">
+          {% for letter, text in options %}
+            <div class="opt plain {% if letter == question.correct_option %}ok{% elif letter == chosen %}bad{% endif %}">
+              <span class="letter">{{ letter }}</span>
+              <span class="flex-1 pt-0.5">{{ text }}</span>
+              {% if letter == question.correct_option %}<span class="text-xs font-bold text-green-700 pt-1">Correct answer</span>
+              {% elif letter == chosen %}<span class="text-xs font-bold text-red-700 pt-1">Your answer</span>{% endif %}
+            </div>
+          {% endfor %}
+        </div>
+
+        <div class="mt-5 rounded-xl border border-blue-200 bg-blue-50 p-4 text-sm leading-relaxed">
+          <p class="font-bold mb-1 {% if chosen == question.correct_option %}text-green-700{% else %}text-red-700{% endif %}">
+            {% if chosen == question.correct_option %}Correct{% else %}Incorrect. The right answer is {{ question.correct_option }}.{% endif %}
+          </p>
+          <p class="whitespace-pre-line"><strong>Explanation:</strong> {{ question.explanation }}</p>
+        </div>
+
+        <div class="mt-5 flex items-center justify-between gap-3">
+          {% if prev_number %}<a href="?q={{ prev_number }}" id="prev-link" class="rounded-lg border px-4 py-2 text-sm font-semibold hover:bg-slate-50">&larr; Previous</a>{% else %}<span></span>{% endif %}
+          {% if next_number %}
+            <a href="?q={{ next_number }}" id="next-link" class="rounded-lg bg-blue-600 px-5 py-2 text-sm font-semibold text-white hover:bg-blue-700">Next &rarr;</a>
+          {% else %}
+            <form method="post" {% if left %}onsubmit="return confirm('You have {{ left }} unanswered question{{ left|pluralize }}. Finish anyway?');"{% endif %}>
+              {% csrf_token %}<input type="hidden" name="action" value="finish">
+              <button id="next-link" class="rounded-lg bg-green-600 px-5 py-2 text-sm font-semibold text-white hover:bg-green-700">See results</button>
+            </form>
+          {% endif %}
+        </div>
+
+      {% else %}
+        <!-- Not answered yet -->
+        <form method="post" id="answer-form">
+          {% csrf_token %}
+          <input type="hidden" name="action" value="answer">
+          <input type="hidden" name="q" value="{{ number }}">
+          <div class="space-y-2" role="radiogroup" aria-label="Answer options">
+            {% for letter, text in options %}
+              <label class="opt">
+                <input type="radio" name="choice" value="{{ letter }}" required class="sr-only">
+                <span class="letter">{{ letter }}</span>
+                <span class="flex-1 pt-0.5">{{ text }}</span>
+              </label>
+            {% endfor %}
+          </div>
+          <div class="mt-5 flex items-center justify-between gap-3">
+            {% if prev_number %}<a href="?q={{ prev_number }}" id="prev-link" class="rounded-lg border px-4 py-2 text-sm font-semibold hover:bg-slate-50">&larr; Previous</a>{% else %}<span></span>{% endif %}
+            <div class="flex items-center gap-3">
+              {% if next_number %}<a href="?q={{ next_number }}" id="next-link" class="text-sm font-semibold text-slate-500 hover:text-slate-800">Skip &rarr;</a>{% endif %}
+              <button id="submit-btn" class="rounded-lg bg-blue-600 px-5 py-2 text-sm font-semibold text-white hover:bg-blue-700 disabled:opacity-40 disabled:cursor-not-allowed" disabled>Submit answer</button>
+            </div>
+          </div>
+        </form>
+      {% endif %}
+
+      <p class="mt-6 text-xs text-slate-500">
+        Shortcuts: <kbd>A</kbd>&ndash;<kbd>E</kbd> choose &nbsp; <kbd>Enter</kbd> submit or next &nbsp; <kbd>N</kbd> next &nbsp; <kbd>P</kbd> previous
+      </p>
+    </section>
+
+    <!-- Question navigator -->
+    <aside class="bp-card p-4 h-fit" aria-label="Question navigator">
+      <h2 class="text-sm font-bold mb-3">Questions</h2>
+      <div class="grid grid-cols-5 gap-2">
+        {% for t in tiles %}
+          <a href="?q={{ t.number }}" class="tile {{ t.state }} {% if t.current %}current{% endif %}"
+             aria-label="Question {{ t.number }}, {{ t.label }}{% if t.current %}, current{% endif %}"
+             {% if t.current %}aria-current="true"{% endif %}>{{ t.number }}</a>
+        {% endfor %}
+      </div>
+      <dl class="mt-4 grid grid-cols-3 gap-2 text-center text-sm">
+        <div class="rounded-lg bg-green-50 py-2"><dt class="text-[11px] font-bold text-green-700">Correct</dt><dd class="font-bold">{{ correct }}</dd></div>
+        <div class="rounded-lg bg-red-50 py-2"><dt class="text-[11px] font-bold text-red-700">Wrong</dt><dd class="font-bold">{{ wrong }}</dd></div>
+        <div class="rounded-lg bg-slate-100 py-2"><dt class="text-[11px] font-bold text-slate-600">Left</dt><dd class="font-bold">{{ left }}</dd></div>
+      </dl>
+      <p class="mt-3 text-xs text-slate-500">Green = correct, red = wrong, white = not answered. The blue outline is the question on screen.</p>
+    </aside>
+  </div>
+</div>
+
+<script>
+(function () {
+  // ---- Timer (counts up from when the session started) ----
+  var seconds = {{ elapsed }};
+  var timer = document.getElementById("timer");
+  function draw() {
+    timer.textContent = Math.floor(seconds / 60) + ":" + String(seconds % 60).padStart(2, "0");
+  }
+  draw();
+  setInterval(function () { seconds += 1; draw(); }, 1000);
+
+  // ---- Highlight the chosen option and enable Submit ----
+  var form = document.getElementById("answer-form");
+  var submit = document.getElementById("submit-btn");
+  var radios = form ? form.querySelectorAll('input[name="choice"]') : [];
+
+  function refresh() {
+    var picked = false;
+    radios.forEach(function (r) {
+      r.closest(".opt").classList.toggle("sel", r.checked);
+      if (r.checked) picked = true;
+    });
+    if (submit) submit.disabled = !picked;
+  }
+  radios.forEach(function (r) { r.addEventListener("change", refresh); });
+  refresh();
+
+  // ---- Keyboard shortcuts ----
+  document.addEventListener("keydown", function (e) {
+    if (e.ctrlKey || e.metaKey || e.altKey) return;
+    var key = e.key.toLowerCase();
+
+    if (form) {
+      var index = "abcde".indexOf(key);
+      if (index === -1 && key >= "1" && key <= "5") index = Number(key) - 1;
+      if (index >= 0 && index < radios.length) {
+        radios[index].checked = true;
+        refresh();
+        e.preventDefault();
+        return;
+      }
+      if (key === "enter" && submit && !submit.disabled) { form.submit(); e.preventDefault(); return; }
+    } else if (key === "enter") {
+      var nextBtn = document.getElementById("next-link");
+      if (nextBtn) { nextBtn.click(); e.preventDefault(); return; }
+    }
+
+    if (key === "n") { var n = document.getElementById("next-link"); if (n && n.tagName === "A") n.click(); }
+    if (key === "p") { var p = document.getElementById("prev-link"); if (p) p.click(); }
+  });
+})();
+</script>
+{% endblock %}

@@ -1,0 +1,78 @@
+{% extends "base.html" %}
+{% block content %}
+<style>
+  /* Subject headings open and close like folders */
+  .acc summary { list-style: none; cursor: pointer; }
+  .acc summary::-webkit-details-marker { display: none; }
+  .acc .chev { transition: transform .15s; }
+  .acc[open] .chev { transform: rotate(90deg); }
+  .status option { color: #111; background: #fff; font-weight: 400; }
+</style>
+
+<!-- Overall progress -->
+<div class="max-w-xl mb-6">
+  <div class="flex justify-between text-sm mb-1">
+    <span class="font-semibold">Overall progress</span>
+    <span class="text-gray-600">{{ total_started }} of {{ total_topics }} topics started</span>
+  </div>
+  <div class="h-2 bg-gray-200 rounded"><div class="h-2 bg-blue-600 rounded" style="width: {{ total_pct }}%"></div></div>
+</div>
+
+<!-- One folder for each subject -->
+<div class="max-w-3xl">
+  {% for g in groups %}
+  <details class="acc bg-white border rounded-xl mb-3" {% if g.open %}open{% endif %}>
+    <summary class="flex items-center gap-3 p-4">
+      <svg class="chev w-4 h-4 text-gray-400 flex-none" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 6l6 6-6 6"/></svg>
+      <span class="flex-1">
+        <span class="block font-semibold text-lg">{{ g.name }}</span>
+        <span class="block text-sm text-gray-600">{{ g.total }} topic{{ g.total|pluralize }}, {{ g.started }} started</span>
+      </span>
+      <span class="hidden sm:block w-32">
+        <span class="block h-2 bg-gray-200 rounded"><span class="block h-2 bg-blue-600 rounded" style="width: {{ g.pct }}%"></span></span>
+      </span>
+      <span class="text-sm font-semibold w-10 text-right">{{ g.pct }}%</span>
+    </summary>
+
+    <ul class="border-t divide-y">
+      {% for t in g.topics %}
+      <li id="topic-{{ t.id }}" class="flex items-center justify-between gap-3 px-4 py-3">
+        <div>
+          <p>{{ t.name }}</p>
+          <p class="text-xs text-gray-500">
+            {% if t.priority == "High" %}<span class="bg-yellow-200 text-gray-800 font-semibold px-1 rounded">High priority</span>{% else %}{{ t.priority }} priority{% endif %}
+            &nbsp;{{ t.stage_text }}
+          </p>
+          {% with subs=t.subtopics.all %}
+          {% if subs %}
+          <details class="mt-1">
+            <summary class="text-xs text-blue-700 font-semibold">&#9656; {{ subs|length }} subtopic{{ subs|length|pluralize }}</summary>
+            <ul class="mt-1 ml-5 list-disc text-xs text-gray-700 space-y-0.5">
+              {% for s in subs %}<li>{{ s.name }}</li>{% endfor %}
+            </ul>
+          </details>
+          {% endif %}
+          {% endwith %}
+        </div>
+
+        <form method="post" action="{% url 'set_status' t.id %}">
+          {% csrf_token %}
+          <input type="hidden" name="next" value="{% url 'syllabus' %}?open={{ g.id }}#topic-{{ t.id }}">
+          <select name="status" aria-label="Status for {{ t.name }}" onchange="this.form.submit()"
+                  class="status border rounded-full px-3 py-1 text-sm font-semibold
+                  {% if t.status == 'Covered' %}bg-yellow-50 border-yellow-400 text-yellow-800
+                  {% elif t.status == 'Revised' %}bg-blue-50 border-blue-300 text-blue-800
+                  {% elif t.status == 'Mastered' %}bg-green-600 border-green-600 text-white
+                  {% else %}bg-white text-gray-600{% endif %}">
+            {% for s in statuses %}<option {% if s == t.status %}selected{% endif %}>{{ s }}</option>{% endfor %}
+          </select>
+        </form>
+      </li>
+      {% endfor %}
+    </ul>
+  </details>
+  {% empty %}
+    <p class="text-gray-600">No topics have been added yet. Add them in the admin panel.</p>
+  {% endfor %}
+</div>
+{% endblock %}

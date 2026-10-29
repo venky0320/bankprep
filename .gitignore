@@ -1,0 +1,34 @@
+# Virtual environment (recreate it with: pip install -r requirements.txt)
+venv/
+.venv/
+env/
+
+# Python
+__pycache__/
+*.pyc
+*.pyo
+
+# Database: contains user accounts and progress. Never commit it.
+db.sqlite3
+db.sqlite3.*
+*.sqlite3
+*.backup
+*.backup*
+
+# Uploaded files (study-note PDFs added through the admin)
+media/
+
+# Secrets and local settings
+.env
+.env.*
+!.env.example
+local_settings.py
+
+# Collected static files (only created for deployment)
+staticfiles/
+
+# Editor and operating-system files
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db

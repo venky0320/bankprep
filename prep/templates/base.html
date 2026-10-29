@@ -1,0 +1,281 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#0f172a">
+
+  <title>{% block title %}BankPrep | Banking Exam Preparation{% endblock %}</title>
+
+  <script src="https://cdn.tailwindcss.com"></script>
+
+  <style>
+    :root {
+      color-scheme: light;
+    }
+
+    body {
+      font-family: Inter, ui-sans-serif, system-ui, sans-serif;
+    }
+
+    .bp-card {
+      background: #fff;
+      border: 1px solid #e5eaf2;
+      border-radius: 1rem;
+      box-shadow: 0 5px 20px rgba(15, 23, 42, 0.035);
+    }
+
+    .bp-nav {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      padding: 0.7rem 0.85rem;
+      border-radius: 0.7rem;
+      color: #cbd5e1;
+      text-decoration: none;
+      transition: background 0.15s, color 0.15s;
+    }
+
+    .bp-nav:hover,
+    .bp-nav:focus-visible {
+      background: #1e293b;
+      color: #fff;
+    }
+
+    .bp-nav[aria-current="page"] {
+      background: #2563eb;
+      color: #fff;
+    }
+
+    input,
+    select,
+    textarea {
+      max-width: 100%;
+    }
+
+    input[type="text"],
+    input[type="password"],
+    input[type="email"],
+    input[type="date"],
+    input[type="number"],
+    select,
+    textarea {
+      border: 1px solid #cbd5e1;
+      padding: 0.65rem 0.8rem;
+      border-radius: 0.65rem;
+    }
+
+    input:focus,
+    select:focus,
+    textarea:focus {
+      outline: 2px solid #93c5fd;
+      outline-offset: 1px;
+    }
+
+    button,
+    a {
+      transition: background-color 0.15s, color 0.15s;
+    }
+
+    :focus-visible {
+      outline: 2px solid #60a5fa;
+      outline-offset: 2px;
+    }
+
+    form p {
+      margin-bottom: 12px;
+    }
+
+    .helptext,
+    form ul {
+      font-size: 12px;
+      color: #64748b;
+    }
+
+    .errorlist {
+      color: #dc2626;
+      font-size: 13px;
+    }
+
+    @media (max-width: 767px) {
+      .bp-nav-scroll {
+        display: flex;
+        overflow-x: auto;
+        padding-bottom: 0.35rem;
+      }
+
+      .bp-nav {
+        white-space: nowrap;
+      }
+
+      .bp-main {
+        padding: 1rem;
+      }
+    }
+  </style>
+</head>
+
+<body class="min-h-screen bg-slate-50 text-slate-900 antialiased">
+
+<div class="min-h-screen md:flex">
+
+  <!-- Sidebar -->
+  <aside class="bg-slate-950 px-4 py-5 text-white
+                md:fixed md:inset-y-0 md:left-0
+                md:flex md:w-64 md:flex-col md:px-5">
+
+    <a
+      href="{% if user.is_authenticated %}{% url 'home' %}{% else %}{% url 'login' %}{% endif %}"
+      class="mb-6 flex items-center gap-3 px-2"
+    >
+      <span class="grid h-11 w-11 place-items-center rounded-xl
+                   bg-blue-600 text-xl font-black">
+        B
+      </span>
+
+      <span>
+        <span class="block text-lg font-extrabold tracking-tight">
+          BankPrep
+        </span>
+        <span class="block text-xs text-slate-400">
+          Learn. Practise. Succeed.
+        </span>
+      </span>
+    </a>
+
+    {% if user.is_authenticated %}
+
+      <p class="mb-2 px-3 text-[11px] font-bold uppercase
+                tracking-[.16em] text-slate-500">
+        Workspace
+      </p>
+
+      <nav
+        class="bp-nav-scroll gap-1 md:flex md:flex-1 md:flex-col"
+        aria-label="Main navigation"
+      >
+
+        <a href="{% url 'home' %}" class="bp-nav"
+          {% if request.resolver_match.url_name == 'home' %}
+            aria-current="page"
+          {% endif %}>
+          <span>▦</span> Dashboard
+        </a>
+
+        <a href="{% url 'syllabus' %}" class="bp-nav"
+          {% if request.resolver_match.url_name == 'syllabus' %}
+            aria-current="page"
+          {% endif %}>
+          <span>☷</span> Syllabus
+        </a>
+
+        <a href="{% url 'exam_info' %}" class="bp-nav"
+          {% if request.resolver_match.url_name == 'exam_info' %}
+            aria-current="page"
+          {% endif %}>
+          <span>▤</span> Exam Info
+        </a>
+
+        <a href="{% url 'practice_home' %}" class="bp-nav"
+          {% if request.resolver_match.url_name == 'practice_home' or request.resolver_match.url_name == 'practice_question' %}
+            aria-current="page"
+          {% endif %}>
+          <span>✎</span> Practice
+        </a>
+
+        <a href="{% url 'mock_home' %}" class="bp-nav"
+          {% if request.resolver_match.url_name == 'mock_home' or request.resolver_match.url_name == 'mock_test' or request.resolver_match.url_name == 'mock_result' %}
+            aria-current="page"
+          {% endif %}>
+          <span>◷</span> Mock Tests
+        </a>
+
+        <a href="{% url 'notes' %}" class="bp-nav"
+          {% if request.resolver_match.url_name == 'notes' %}
+            aria-current="page"
+          {% endif %}>
+          <span>▧</span> Study Notes
+        </a>
+
+        <a href="{% url 'wrong_answers' %}" class="bp-nav"
+          {% if request.resolver_match.url_name == 'wrong_answers' %}
+            aria-current="page"
+          {% endif %}>
+          <span>↻</span> Wrong Answers
+        </a>
+
+      </nav>
+
+      <div class="mt-5 border-t border-slate-800 pt-4">
+        <p class="truncate px-3 text-sm font-semibold">
+          {{ user.username }}
+        </p>
+
+        <p class="mb-3 px-3 text-xs text-slate-500">
+          Your study workspace
+        </p>
+
+        <form method="post" action="{% url 'logout' %}">
+          {% csrf_token %}
+
+          <button
+            type="submit"
+            class="w-full rounded-lg px-3 py-2 text-left
+                   text-sm text-slate-300 hover:bg-slate-800
+                   hover:text-white"
+          >
+            ↪ Sign out
+          </button>
+        </form>
+      </div>
+
+    {% else %}
+
+      <p class="px-3 text-sm text-slate-400">
+        Your banking exam preparation workspace
+      </p>
+
+    {% endif %}
+
+  </aside>
+
+  <!-- Main content -->
+  <main class="bp-main min-w-0 flex-1 p-4
+               md:ml-64 md:p-8 lg:p-10">
+
+    <div class="mx-auto w-full max-w-7xl">
+
+      {% if messages %}
+        <div class="mb-5 space-y-2">
+
+          {% for message in messages %}
+            <div
+              class="rounded-xl border border-blue-100
+                     bg-blue-50 px-4 py-3 text-sm text-blue-900"
+              role="status"
+            >
+              {{ message }}
+            </div>
+          {% endfor %}
+
+        </div>
+      {% endif %}
+
+      {% block content %}
+      {% endblock %}
+
+      <footer class="mt-10 border-t border-slate-200
+                     pt-4 text-xs text-slate-400">
+        BankPrep · Build a stronger preparation habit,
+        one question at a time.
+      </footer>
+
+    </div>
+
+  </main>
+
+</div>
+
+</body>
+</html>

@@ -1,0 +1,96 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="max-w-3xl">
+
+  <!-- Top bar: section name and countdown -->
+  <div class="sticky top-0 z-10 bg-gray-50 py-3 mb-4 border-b flex flex-wrap justify-between items-center gap-2">
+    <div>
+      <p class="text-xs text-gray-500">{{ test.preset }} &middot; Section {{ section_number }} of {{ section_total }}</p>
+      <h1 class="text-xl font-bold">{{ section.name }}</h1>
+    </div>
+    <div class="text-right">
+      <p class="text-xs text-gray-500">Time left</p>
+      <p id="timer" class="text-2xl font-bold text-blue-700">--:--</p>
+    </div>
+  </div>
+
+  <!-- Question number buttons: they turn blue when answered -->
+  <div class="flex flex-wrap gap-1 mb-4">
+    {% for q in questions %}
+      <a href="#q{{ q.id }}" id="nav{{ q.id }}" class="w-8 h-8 flex items-center justify-center text-sm border rounded bg-white">{{ forloop.counter }}</a>
+    {% endfor %}
+  </div>
+
+  <form method="post" id="mock-form">
+    {% csrf_token %}
+    <input type="hidden" name="section" value="{{ test.current_section }}">
+
+    {% for q in questions %}
+    <div id="q{{ q.id }}" class="bg-white p-5 rounded-xl shadow mb-4" style="scroll-margin-top: 90px;">
+      <p class="font-medium mb-3 whitespace-pre-line">{{ forloop.counter }}. {{ q.question_text }}</p>
+      <div class="space-y-2">
+        {% for letter, text in q.options %}
+          <label class="block border p-3 rounded cursor-pointer hover:bg-gray-50">
+            <input type="radio" name="q{{ q.id }}" value="{{ letter }}" class="mr-2 answer-radio" data-nav="nav{{ q.id }}">
+            {{ letter }}. {{ text }}
+          </label>
+        {% endfor %}
+      </div>
+      <button type="button" class="mt-2 text-xs text-gray-500 underline clear-btn" data-name="q{{ q.id }}" data-nav="nav{{ q.id }}">Clear answer</button>
+    </div>
+    {% endfor %}
+
+    <button type="submit" id="submit-btn" class="bg-green-600 text-white px-5 py-2 rounded mb-10">
+      {% if is_last %}Submit test{% else %}Submit section{% endif %}
+    </button>
+    <p class="text-xs text-gray-500 mb-10">
+      Answers are saved when you submit the section. Do not close this page.
+      You cannot return to this section afterwards.
+    </p>
+  </form>
+</div>
+
+<script>
+  // ---- Countdown timer ----
+  const endTime = Date.now() + {{ remaining_seconds }} * 1000;
+  const timerBox = document.getElementById("timer");
+  const form = document.getElementById("mock-form");
+  let submitted = false;
+
+  function tick() {
+    const left = Math.max(0, Math.round((endTime - Date.now()) / 1000));
+    const m = String(Math.floor(left / 60)).padStart(2, "0");
+    const s = String(left % 60).padStart(2, "0");
+    timerBox.textContent = m + ":" + s;
+    if (left <= 60) timerBox.className = "text-2xl font-bold text-red-600";
+    if (left === 0 && !submitted) {          // time is up: send the answers automatically
+      submitted = true;
+      form.submit();
+    }
+  }
+  tick();
+  setInterval(tick, 500);
+
+  // ---- Ask before submitting by hand ----
+  document.getElementById("submit-btn").addEventListener("click", function (e) {
+    if (!confirm("Submit now? You cannot come back to this section.")) {
+      e.preventDefault();
+    } else {
+      submitted = true;
+    }
+  });
+
+  // ---- Highlight answered question numbers ----
+  document.querySelectorAll(".answer-radio").forEach(function (r) {
+    r.addEventListener("change", function () {
+      document.getElementById(r.dataset.nav).classList.add("bg-blue-600", "text-white");
+    });
+  });
+  document.querySelectorAll(".clear-btn").forEach(function (b) {
+    b.addEventListener("click", function () {
+      document.querySelectorAll('input[name="' + b.dataset.name + '"]').forEach(function (r) { r.checked = false; });
+      document.getElementById(b.dataset.nav).classList.remove("bg-blue-600", "text-white");
+    });
+  });
+</script>
+{% endblock %}

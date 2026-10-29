@@ -1,0 +1,76 @@
+{% extends "base.html" %}
+{% block content %}
+<style>
+  /* Subject headings open and close like folders */
+  .acc summary { list-style: none; cursor: pointer; }
+  .acc summary::-webkit-details-marker { display: none; }
+  .acc .chev { transition: transform .15s; }
+  .acc[open] .chev { transform: rotate(90deg); }
+  /* The site-wide form styling is meant for the login pages; switch it off here */
+  form.plain p { margin-bottom: 0; }
+  form.plain ul { font-size: inherit; color: inherit; }
+  .sub-select { padding: .3rem .5rem; font-size: .8rem; border-radius: .4rem; }
+</style>
+
+{% if message %}
+<p class="max-w-3xl mb-4 p-3 rounded border border-red-200 bg-red-50 text-red-800" role="alert">{{ message }}</p>
+{% endif %}
+
+<form method="post" class="plain max-w-3xl">
+  {% csrf_token %}
+
+  <!-- One folder for each subject -->
+  {% for g in groups %}
+  <details class="acc bg-white border rounded-xl mb-3" {% if g.open %}open{% endif %}>
+    <summary class="flex items-center gap-3 p-4">
+      <svg class="chev w-4 h-4 text-gray-400 flex-none" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 6l6 6-6 6"/></svg>
+      <span class="flex-1">
+        <span class="block font-semibold text-lg">{{ g.name }}</span>
+        <span class="block text-sm text-gray-600">
+          {% if g.questions %}{{ g.questions }} question{{ g.questions|pluralize }} in {{ g.with_q }} of {{ g.total }} topics{% else %}No questions yet{% endif %}
+        </span>
+      </span>
+    </summary>
+
+    <ul class="border-t divide-y">
+      {% for t in g.topics %}
+      <li class="flex items-center justify-between gap-3 px-4 py-3">
+        <div>
+          <p class="{% if not t.n %}text-gray-500{% endif %}">{{ t.name }}</p>
+          {% if t.n %}
+            <p class="text-xs text-gray-500">
+              {{ t.n }} question{{ t.n|pluralize }}
+            </p>
+            <p class="text-xs {% if t.attempts %}text-gray-700{% else %}text-gray-400{% endif %}">
+              {% if t.attempts %}You: {{ t.accuracy }}% right from {{ t.attempts }} answer{{ t.attempts|pluralize }}{% else %}Not practised yet{% endif %}
+            </p>
+            {% if t.sub_list %}
+            <label class="block mt-2">
+              <span class="sr-only">Subtopic for {{ t.name }}</span>
+              <select name="subtopic_{{ t.id }}" class="sub-select border bg-white">
+                <option value="">All subtopics ({{ t.n }} question{{ t.n|pluralize }})</option>
+                {% for s in t.sub_list %}
+                  <option value="{{ s.id }}" {% if not s.n %}disabled{% endif %}>{{ s.name }} ({{ s.n }})</option>
+                {% endfor %}
+              </select>
+            </label>
+            {% endif %}
+          {% endif %}
+        </div>
+        {% if t.n %}
+          <button type="submit" name="topic" value="{{ t.id }}"
+                  class="flex-none bg-blue-600 text-white px-4 py-1.5 rounded font-semibold hover:bg-blue-700">
+            Practice
+          </button>
+        {% else %}
+          <span class="flex-none text-sm text-gray-400">No questions yet</span>
+        {% endif %}
+      </li>
+      {% endfor %}
+    </ul>
+  </details>
+  {% empty %}
+    <p class="text-gray-600">No topics have been added yet. Add them in the admin panel.</p>
+  {% endfor %}
+</form>
+{% endblock %}
